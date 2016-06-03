@@ -1,5 +1,9 @@
 box: node:4.2.6-slim
+services:
+ - id: mongo
 dev:
+  services:
+   - id: mongo
   steps:
     - npm-install
     - internal/watch:
@@ -24,4 +28,11 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
+    - internal/docker-push:
+        username: eisenxu
+        password: $PASSWORD
+        cmd: node app.js
+        working-dir: /pipeline/source
+        ports: 5000
+        repository: eisenxu/wercker-test-app
 
